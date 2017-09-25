@@ -1,6 +1,6 @@
 {
   "name": "ansyn-event-drops",
-  "version": "0.4.2",
+  "version": "0.4.4",
   "description": "A time based / event series interactive visualization using d3.js. Use drag and zoom to navigate in time.",
   "main": "dist-es5/index.js",
   "files": [
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/marmelab/EventDrops"
+    "url": "https://github.com/osadan/ansyn-event-drops"
   },
   "dependencies": {
     "configurable.js": "^0.1.1",
@@ -56,10 +56,10 @@
     "webpack-dev-server": "^2.4.5"
   },
   "bugs": {
-    "url": "https://github.com/marmelab/EventDrops/issues"
+    "url": "https://github.com/osadan/ansyn-event-drops/issues"
   },
   "typings": "typings.d.ts",
-  "homepage": "https://github.com/marmelab/EventDrops",
+  "homepage": "https://github.com/osadan/ansyn-event-drops",
   "directories": {
     "example": "example",
     "test": "test"
@@ -72,7 +72,7 @@
     "test-watch": "npm run karma",
     "run": "npm start",
     "build": "node ./node_modules/webpack/bin/webpack -p  --progress --devtool source-map --config ./webpack.lib.js ",
-    "build-es5": "babel src --out-dir dist-es5 -s"
+    "build-es5": "babel src --out-dir dist-es5 --source-maps --copy-files"
   },
   "lint-staged": {
     "src/*.js": [
