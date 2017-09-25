@@ -10,16 +10,29 @@ import zoom from './zoom';
 function eventDrops(config = {}) {
     const finalConfiguration = Object.assign({}, defaultConfig, config);
 
-    const yScale = data => {
-        return d3
+    const yScale = data =>
+        d3
             .scaleOrdinal()
             .domain(data.map(d => d.name))
             .range(data.map((d, i) => i * finalConfiguration.lineHeight));
-    };
 
     const xScale = (width, timeBounds) => {
         return d3.scaleTime().domain(timeBounds).range([0, width]);
     };
+
+    function getScales(dimensions, configuration, data) {
+        return {
+            x: xScale(
+                dimensions.width -
+                    (configuration.displayLabels
+                        ? configuration.labelsWidth +
+                              configuration.labelsRightMargin
+                        : 0),
+                [configuration.start, configuration.end]
+            ),
+            y: yScale(data),
+        };
+    }
 
     function eventDropGraph(selection) {
         return selection.each(function selector(data) {
@@ -63,20 +76,6 @@ function eventDrops(config = {}) {
                 );
             }
         });
-    }
-
-    function getScales(dimensions, configuration, data) {
-        return {
-            x: xScale(
-                dimensions.width -
-                    (configuration.displayLabels
-                        ? configuration.labelsWidth +
-                              configuration.labelsRightMargin
-                        : 0),
-                [configuration.start, configuration.end]
-            ),
-            y: yScale(data),
-        };
     }
 
     configurable(eventDropGraph, finalConfiguration);

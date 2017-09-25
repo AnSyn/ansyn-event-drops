@@ -4,6 +4,7 @@ import labels from './drawer/labels';
 import { delimiters } from './drawer/delimiters';
 import { boolOrReturnValue } from './drawer/xAxis';
 import debounce from 'debounce';
+import { event as currentEvent } from 'd3-selection';
 
 export default (
     container,

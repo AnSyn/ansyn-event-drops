@@ -1,6 +1,8 @@
 import * as d3 from 'd3/build/d3';
+//import {event} from 'd3-event';
+import { event as currentEvent } from 'd3-selection';
 
-import { eventDrops } from '../src';
+import eventDrops from '../dist/eventDrops';
 
 const md5 = require('./md5');
 const repositories = require('./data.json');
@@ -57,13 +59,13 @@ const showTooltip = commit => {
 
     const rightOrLeftLimit = FONT_SIZE * TOOLTIP_WIDTH;
 
-    const direction = d3.event.pageX > rightOrLeftLimit ? 'right' : 'left';
+    const direction = currentEvent.pageX > rightOrLeftLimit ? 'right' : 'left';
 
     const ARROW_MARGIN = 1.65;
     const ARROW_WIDTH = FONT_SIZE;
     const left = direction === 'right'
-        ? d3.event.pageX - rightOrLeftLimit
-        : d3.event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
+        ? currentEvent.pageX - rightOrLeftLimit
+        : currentEvent.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
 
     tooltip.html(
         `
@@ -100,20 +102,23 @@ const hideTooltip = () => {
 };
 
 const chart = eventDrops({
-        displayLabels: true,
-        margin: {
-            top: 60,
-            left: 10,
-            bottom: 40,
-            right: 50,
-        }
-    })
-    .start(new Date(2015,0,1)) //new Date(new Date().getTime() - 3600000 * 24 * 365) one year ago
-    .end(new Date(2016,0,1))
+    displayLabels: true,
+    margin: {
+        top: 60,
+        left: 10,
+        bottom: 40,
+        right: 50,
+    }
+})
+    .start(new Date(2015, 0, 1)) //new Date(new Date().getTime() - 3600000 * 24 * 365) one year ago
+    .end(new Date(2016, 0, 1))
     .eventLineColor((d, i) => colors[i])
     .date(d => new Date(d.date))
     .mouseover(showTooltip)
-    .mouseout(hideTooltip);
+    .mouseout(hideTooltip)
+    .click((value) => {
+        console.log(d3.event, value);
+    });
 
 const element = d3.select('#eventdrops-demo').datum(
     repositories.map(repository => ({

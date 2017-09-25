@@ -2,6 +2,12 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
+
+    target: {
+        node: {
+            fs: 'empty',
+        },
+    },
     entry: {
         eventDrops: './src',
     },
@@ -23,7 +29,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({ use: 'css-loader' }),
+                use: ExtractTextPlugin.extract({use: 'css-loader'}),
                 include: [path.resolve(__dirname, 'src')],
             },
         ],
