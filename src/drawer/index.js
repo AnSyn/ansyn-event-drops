@@ -9,17 +9,14 @@ import { drawTopAxis, drawBottomAxis, boolOrReturnValue } from './xAxis';
 
 export default (svg, dimensions, scales, configuration) => {
     const defs = svg.append('defs');
-
+    const labelsWidth = configuration.leftWidth;
+	const width = dimensions.width - labelsWidth;
     defs
         .append('clipPath')
         .attr('id', 'drops-container-clipper')
         .append('rect')
         .attr('id', 'drops-container-rect')
-        .attr(
-            'width',
-            dimensions.width -
-                (configuration.displayLabels ? configuration.labelsWidth + configuration.labelsRightMargin : 0)
-        )
+        .attr('width',width)
         .attr(
             'height',
             dimensions.height +
@@ -36,14 +33,10 @@ export default (svg, dimensions, scales, configuration) => {
     const chartWrapper = svg
         .append('g')
         .attr('class', 'chart-wrapper')
-        .attr(
-            'width',
-            dimensions.width -
-                (configuration.displayLabels ? (configuration.labelsWidth + configuration.labelsRightMargin) : 0)
-            )
+        .attr('width',dimensions.width - width )
         .attr(
             'transform',
-            `translate(${configuration.displayLabels ? configuration.labelsWidth + configuration.labelsRightMargin : 0}, ${configuration.margin.top})`
+            `translate(${labelsWidth}, ${configuration.margin.top})`
         );
 
     const dropsContainer = chartWrapper
@@ -80,9 +73,9 @@ export default (svg, dimensions, scales, configuration) => {
         configuration,
         dimensions
     );
-    
+
     const labels = labelsFactory(labelsContainer, scales, configuration);
-    
+
     const drops = dropsFactory(dropsContainer, scales, configuration);
 
     const shapes = shapesFactory(shapesContainer,scales,configuration);
@@ -92,7 +85,7 @@ export default (svg, dimensions, scales, configuration) => {
         delimiters(
             svg,
             scales,
-            configuration.displayLabels ? configuration.labelsWidth + configuration.labelsRightMargin : 0,
+            labelsWidth,
             configuration.dateFormat
         );
         drops(data);

@@ -48,10 +48,7 @@ export default (
                 delimiters(
                     container,
                     { x: scalingFunction },
-                    configuration.displayLabels
-                        ? configuration.labelsWidth +
-                              configuration.labelsRightMargin
-                        : 0,
+                    configuration.leftWidth,
                     configuration.dateFormat
                 );
                 if (callback) {

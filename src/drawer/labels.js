@@ -3,15 +3,17 @@ import filterData from '../filterData';
 export default (container, scales, config) =>
     data => {
         const result = [];
+
         if(!config.displayLabels) {
             if(data && !data.length){
                 return;
             }
+
             data.forEach( d => {
                 const count = filterData(d.data, scales.x, config.date).length;
-                result.push({name: d.name,count: count});    
+                result.push({name: d.name,count: count});
             })
-            
+
             return result;
         }
 
@@ -20,7 +22,7 @@ export default (container, scales, config) =>
             labels = container.selectAll('.label').data(data);
         }
         else {
-            labels = container.selectAll('.label');   
+            labels = container.selectAll('.label');
         }
 
         const text = d => {
@@ -36,10 +38,7 @@ export default (container, scales, config) =>
             .append('text')
             .classed('label', true)
             .attr('x', config.labelsWidth)
-            .attr(
-                'transform',
-                (d, idx) => `translate(0, ${40 + scales.y(idx)})`
-            )
+            .attr('transform',(d, idx) => `translate(0, ${40 + scales.y(idx)})`)
             .attr('text-anchor', 'end')
             .text(text);
 

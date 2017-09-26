@@ -6,19 +6,10 @@ export default (scales, configuration, dimensions) =>
             .enter()
             .append('g')
             .classed('line-separator', true)
-            .attr(
-                'transform',
-                (d, i) =>
-                    `translate(0, ${scales.y(i) + configuration.lineHeight})`
-            )
+            .attr('transform',(d, i) =>`translate(0, ${scales.y(i) + configuration.lineHeight})`)
             .append('line')
             .attr('x1', 0)
-            .attr(
-                'x2',
-                dimensions.width -
-                    (configuration.displayLabels ? configuration.labelsWidth +
-                        configuration.labelsRightMargin : 0)
-            );
+            .attr('x2',dimensions.width - configuration.leftWidth);
 
         separators.exit().remove();
     };

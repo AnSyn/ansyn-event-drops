@@ -1,8 +1,8 @@
 import { symbolStar, symbol } from 'd3';
 export default (container, scales, configuration) =>
     data => {
-        const leftOffset = configuration.labelsWidth +
-            configuration.labelsRightMargin;
+        /*const leftOffset = configuration.labelsWidth +
+            configuration.labelsRightMargin;*/
 
         const shapeLines = container
             .selectAll('.shape-line')

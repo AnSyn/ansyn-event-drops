@@ -11,7 +11,6 @@ const eventDrops = function(config = {}) {
     const finalConfiguration = Object.assign({}, defaultConfig, config);
 
     const yScale = data => {
-        //debugger;
         const handler = scaleOrdinal()
             .domain(data.map(d => d.name))
             .range(data.map((d, i) => i * finalConfiguration.lineHeight));
@@ -24,6 +23,10 @@ const eventDrops = function(config = {}) {
 
     function eventDropGraph(selection) {
         return selection.each(function selector(data) {
+            finalConfiguration.leftWidth = finalConfiguration.displayLabels
+                ? finalConfiguration.labelsWidth +
+                      finalConfiguration.labelsRightMargin
+                : 0;
             select(this).select('.event-drops-chart').remove();
 
             const dimensions = {
@@ -67,14 +70,10 @@ const eventDrops = function(config = {}) {
 
     function getScales(dimensions, configuration, data) {
         return {
-            x: xScale(
-                dimensions.width -
-                    (configuration.displayLabels
-                        ? configuration.labelsWidth +
-                              configuration.labelsRightMargin
-                        : 0),
-                [configuration.start, configuration.end]
-            ),
+            x: xScale(dimensions.width - finalConfiguration.leftWidth, [
+                configuration.start,
+                configuration.end,
+            ]),
             y: yScale(data),
         };
     }
