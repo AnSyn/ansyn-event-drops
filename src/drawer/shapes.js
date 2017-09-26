@@ -1,5 +1,4 @@
-import * as d3 from 'd3/build/d3';
-
+import { symbolStar, symbol } from 'd3';
 export default (container, scales, configuration) =>
     data => {
         const leftOffset = configuration.labelsWidth +
@@ -20,7 +19,7 @@ export default (container, scales, configuration) =>
             .enter()
             .filter( d => {if (d.shape) {return d;}return false;})
             .append('path')
-            .attr('d',  d3.symbol().size(140).type(d3.symbolStar))
+            .attr('d',  symbol().size(140).type(symbolStar))
             .attr('fill', d =>  configuration.shapes[d.shape].fill)
             .classed('shape', true)
             .attr('stroke','white')

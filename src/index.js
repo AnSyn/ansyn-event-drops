@@ -1,50 +1,37 @@
-import * as d3 from 'd3/build/d3';
+//import * as d3 from 'd3/build/d3';
 import configurable from 'configurable.js';
-
+import { scaleOrdinal, scaleTime, select } from 'd3';
 import './style.css';
 
 import defaultConfig from './config';
 import drawer from './drawer';
 import zoom from './zoom';
 
-function eventDrops(config = {}) {
+const eventDrops = function(config = {}) {
     const finalConfiguration = Object.assign({}, defaultConfig, config);
 
-    const yScale = data =>
-        d3
-            .scaleOrdinal()
+    const yScale = data => {
+        //debugger;
+        const handler = scaleOrdinal()
             .domain(data.map(d => d.name))
             .range(data.map((d, i) => i * finalConfiguration.lineHeight));
-
-    const xScale = (width, timeBounds) => {
-        return d3.scaleTime().domain(timeBounds).range([0, width]);
+        return handler;
     };
 
-    function getScales(dimensions, configuration, data) {
-        return {
-            x: xScale(
-                dimensions.width -
-                    (configuration.displayLabels
-                        ? configuration.labelsWidth +
-                              configuration.labelsRightMargin
-                        : 0),
-                [configuration.start, configuration.end]
-            ),
-            y: yScale(data),
-        };
-    }
+    const xScale = (width, timeBounds) => {
+        return scaleTime().domain(timeBounds).range([0, width]);
+    };
 
     function eventDropGraph(selection) {
         return selection.each(function selector(data) {
-            d3.select(this).select('.event-drops-chart').remove();
+            select(this).select('.event-drops-chart').remove();
 
             const dimensions = {
                 width: this.clientWidth,
                 height: data.length * finalConfiguration.lineHeight,
             };
 
-            const svg = d3
-                .select(this)
+            const svg = select(this)
                 .append('svg')
                 .classed('event-drops-chart', true)
                 .attr(
@@ -78,12 +65,26 @@ function eventDrops(config = {}) {
         });
     }
 
+    function getScales(dimensions, configuration, data) {
+        return {
+            x: xScale(
+                dimensions.width -
+                    (configuration.displayLabels
+                        ? configuration.labelsWidth +
+                              configuration.labelsRightMargin
+                        : 0),
+                [configuration.start, configuration.end]
+            ),
+            y: yScale(data),
+        };
+    }
+
     configurable(eventDropGraph, finalConfiguration);
 
     return eventDropGraph;
-}
+};
 
-d3.chart = d3.chart || {};
-d3.chart.eventDrops = eventDrops;
+// chart = chart || {};
+// chart.eventDrops = eventDrops;
 
 export { eventDrops };

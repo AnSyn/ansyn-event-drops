@@ -1,10 +1,10 @@
-import * as d3 from 'd3/build/d3';
+//import * as d3 from 'd3/build/d3';
+import { event as currentEvent, axisTop, axisBottom, zoom } from 'd3';
 import xAxis from './xAxis';
 import labels from './drawer/labels';
 import { delimiters } from './drawer/delimiters';
 import { boolOrReturnValue } from './drawer/xAxis';
 import debounce from 'debounce';
-import { event as currentEvent } from 'd3-selection';
 
 export default (
     container,
@@ -15,18 +15,18 @@ export default (
     callback
 ) => {
     const onZoom = (data, index, element) => {
-        const scalingFunction = d3.event.transform.rescaleX(scales.x);
+        const scalingFunction = currentEvent.transform.rescaleX(scales.x);
         let result = {};
         if (boolOrReturnValue(configuration.hasTopAxis, data)) {
             container
                 .selectAll('.x-axis.top')
-                .call(d3.axisTop().scale(scalingFunction));
+                .call(axisTop().scale(scalingFunction));
         }
 
         if (boolOrReturnValue(configuration.hasBottomAxis, data)) {
             container
                 .selectAll('.x-axis.bottom')
-                .call(d3.axisBottom().scale(scalingFunction));
+                .call(axisBottom().scale(scalingFunction));
         }
 
         const sumDataCount = debounce(
@@ -87,17 +87,16 @@ export default (
     };
 
     const zoomEnd = (data, index, element) => {
-        const scalingFunction = d3.event.transform.rescaleX(scales.x);
+        const scalingFunction = currentEvent.transform.rescaleX(scales.x);
         const domain = scalingFunction.domain();
         configuration.zoomend({ dates: { from: domain[0], to: domain[1] } });
     };
 
-    const zoom = d3
-        .zoom()
+    const zoomHandler = zoom()
         .scaleExtent([configuration.minScale, configuration.maxScale])
         .on('zoom', onZoom)
         .on('end', zoomEnd);
 
-    container.call(zoom);
-    return zoom;
+    container.call(zoomHandler);
+    return zoomHandler;
 };

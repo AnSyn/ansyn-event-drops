@@ -1,8 +1,8 @@
 import * as d3 from 'd3/build/d3';
 //import {event} from 'd3-event';
-import { event as currentEvent } from 'd3-selection';
+//import { event as d3.event } from 'd3';
 
-import eventDrops from '../dist/eventDrops';
+import { eventDrops } from '../dist/eventDrops';
 
 const md5 = require('./md5');
 const repositories = require('./data.json');
@@ -59,13 +59,13 @@ const showTooltip = commit => {
 
     const rightOrLeftLimit = FONT_SIZE * TOOLTIP_WIDTH;
 
-    const direction = currentEvent.pageX > rightOrLeftLimit ? 'right' : 'left';
+    const direction = d3.event.pageX > rightOrLeftLimit ? 'right' : 'left';
 
     const ARROW_MARGIN = 1.65;
     const ARROW_WIDTH = FONT_SIZE;
     const left = direction === 'right'
-        ? currentEvent.pageX - rightOrLeftLimit
-        : currentEvent.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
+        ? d3.event.pageX - rightOrLeftLimit
+        : d3.event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
 
     tooltip.html(
         `

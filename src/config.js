@@ -1,4 +1,13 @@
-import * as d3 from 'd3/build/d3';
+import {
+    timeMonth,
+    timeSecond,
+    timeFormat,
+    timeMinute,
+    timeHour,
+    timeDay,
+    timeWeek,
+    timeYear,
+} from 'd3';
 
 const config = {
     lineHeight: 40,
@@ -18,28 +27,28 @@ const config = {
     locale: null,
     axisFormat: null,
     tickFormat: date => {
-        const formatMillisecond = d3.timeFormat('.%L');
-        const formatSecond = d3.timeFormat(':%S');
-        const formatMinute = d3.timeFormat('%I:%M');
-        const formatHour = d3.timeFormat('%I %p');
-        const formatDay = d3.timeFormat('%a %d');
-        const formatWeek = d3.timeFormat('%b %d');
-        const formatMonth = d3.timeFormat('%B');
-        const formatYear = d3.timeFormat('%Y');
+        const formatMillisecond = timeFormat('.%L');
+        const formatSecond = timeFormat(':%S');
+        const formatMinute = timeFormat('%I:%M');
+        const formatHour = timeFormat('%I %p');
+        const formatDay = timeFormat('%a %d');
+        const formatWeek = timeFormat('%b %d');
+        const formatMonth = timeFormat('%B');
+        const formatYear = timeFormat('%Y');
 
-        return (d3.timeSecond(date) < date
+        return (timeSecond(date) < date
             ? formatMillisecond
-            : d3.timeMinute(date) < date
+            : timeMinute(date) < date
                   ? formatSecond
-                  : d3.timeHour(date) < date
+                  : timeHour(date) < date
                         ? formatMinute
-                        : d3.timeDay(date) < date
+                        : timeDay(date) < date
                               ? formatHour
-                              : d3.timeMonth(date) < date
-                                    ? d3.timeWeek(date) < date
+                              : timeMonth(date) < date
+                                    ? timeWeek(date) < date
                                           ? formatDay
                                           : formatWeek
-                                    : d3.timeYear(date) < date
+                                    : timeYear(date) < date
                                           ? formatMonth
                                           : formatYear)(date);
     },
@@ -69,6 +78,6 @@ const config = {
 
 config.dateFormat = config.locale
     ? config.locale.timeFormat('%d %B %Y')
-    : d3.timeFormat('%d %B %Y');
+    : timeFormat('%d %B %Y');
 
 export default config;
