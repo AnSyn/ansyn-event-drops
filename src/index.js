@@ -1,6 +1,6 @@
 //import * as d3 from 'd3/build/d3';
 import configurable from 'configurable.js';
-import { scaleOrdinal, scaleTime, select } from 'd3';
+import { scaleOrdinal, scaleTime, select, event as d3Event } from 'd3';
 import './style.css';
 
 import defaultConfig from './config';
@@ -86,4 +86,4 @@ const eventDrops = function(config = {}) {
 // chart = chart || {};
 // chart.eventDrops = eventDrops;
 
-export { eventDrops };
+export { eventDrops, d3Event };

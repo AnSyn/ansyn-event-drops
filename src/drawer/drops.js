@@ -1,3 +1,5 @@
+import {event as d3Event} from 'd3';
+
 export default (container, scales, configuration) =>
     data => {
         const leftOffset = configuration.labelsWidth +
@@ -18,7 +20,12 @@ export default (container, scales, configuration) =>
         drops
             .data(d => d.data)
             .enter()
-            .filter( d => {if (!d.shape) {return d;}return false;})
+            .filter(d => {
+                if (!d.shape) {
+                    return d;
+                }
+                return false;
+            })
             .append('circle')
             .classed('drop', true)
             .attr('r', 5)
@@ -26,16 +33,16 @@ export default (container, scales, configuration) =>
             .attr('cy', configuration.lineHeight / 2)
             .attr('fill', configuration.eventColor)
             .attr("data-id", d => d.id)
-            .on('mousedown', configuration.click)
-            .on('dblclick',configuration.dblclick)
-            .on('mouseover', configuration.mouseover)
-            .on('mouseout', configuration.mouseout);
+            .on('mousedown', (data,index,node) => configuration.click(data, index, node, d3Event))
+            .on('dblclick', (data,index,node) => configuration.dblclick(data, index, node, d3Event))
+            .on('mouseover', (data,index,node) => configuration.mouseover(data, index, node, d3Event))
+            .on('mouseout', (data,index,node) => configuration.mouseout(data, index, node, d3Event));
 
         // unregister previous event handlers to prevent from memory leaks
         drops
             .exit()
             .on('mousedown', null)
-            .on('dblclick',null)
+            .on('dblclick', null)
             .on('mouseout', null)
             .on('mouseover', null)
             .remove();

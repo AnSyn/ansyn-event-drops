@@ -1,14 +1,12 @@
 import * as d3 from 'd3/build/d3';
-//import {event} from 'd3-event';
-//import { event as d3.event } from 'd3';
-
-import { eventDrops } from '../dist/eventDrops';
+import {  eventDrops } from '../dist/eventDrops';
 
 const md5 = require('./md5');
+
 const repositories = require('./data.json');
 
-
 const colors = d3.schemeCategory10;
+
 const gravatar = email =>
     `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}`;
 
@@ -39,7 +37,7 @@ const FONT_SIZE = 16; // in pixels
 const TOOLTIP_WIDTH = 30; // in rem
 
 // we're gonna create a tooltip per drop to prevent from transition issues
-const showTooltip = commit => {
+const showTooltip = (commit,index,node, event) => {
     d3.select('body').selectAll('.tooltip').remove();
 
     const tooltip = d3
@@ -64,8 +62,8 @@ const showTooltip = commit => {
     const ARROW_MARGIN = 1.65;
     const ARROW_WIDTH = FONT_SIZE;
     const left = direction === 'right'
-        ? d3.event.pageX - rightOrLeftLimit
-        : d3.event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
+        ? event.pageX - rightOrLeftLimit
+        : event.pageX - ARROW_MARGIN * FONT_SIZE - ARROW_WIDTH / 2;
 
     tooltip.html(
         `
@@ -85,7 +83,7 @@ const showTooltip = commit => {
 
     tooltip
         .style('left', `${left}px`)
-        .style('top', `${d3.event.pageY + 16}px`)
+        .style('top', `${event.pageY + 16}px`)
         .classed(direction, true);
 };
 
@@ -108,7 +106,7 @@ const chart = eventDrops({
         left: 10,
         bottom: 40,
         right: 50,
-    }
+    },
 })
     .start(new Date(2015, 0, 1)) //new Date(new Date().getTime() - 3600000 * 24 * 365) one year ago
     .end(new Date(2016, 0, 1))
@@ -116,8 +114,8 @@ const chart = eventDrops({
     .date(d => new Date(d.date))
     .mouseover(showTooltip)
     .mouseout(hideTooltip)
-    .click((value) => {
-        console.log(d3.event, value);
+    .click((data,index,node,event) => {
+        console.log(event, value);
     });
 
 const element = d3.select('#eventdrops-demo').datum(

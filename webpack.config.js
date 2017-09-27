@@ -8,8 +8,9 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'demo/dist'),
-        library: 'eventDrops'
-    },
+        library: 'eventDrops',
+        libraryTarget: 'umd',
+},
     externals: {
         d3: 'd3',
     },
