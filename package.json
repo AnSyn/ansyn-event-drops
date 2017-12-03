@@ -18,9 +18,7 @@
   "dependencies": {
     "configurable.js": "^0.1.1",
     "d3": "^4.7.0",
-    "debounce": "^1.0.0",
-    "extract-text-webpack-plugin": "^2.1.0",
-    "html-webpack-plugin": "^2.28.0"
+    "debounce": "^1.0.0"
   },
   "devDependencies": {
     "async": "^2.0.1",
@@ -53,7 +51,9 @@
     "scss-loader": "^0.0.1",
     "style-loader": "^0.13.1",
     "webpack": "^2.4.1",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "html-webpack-plugin": "^2.28.0"
   },
   "bugs": {
     "url": "https://github.com/osadan/ansyn-event-drops/issues"
