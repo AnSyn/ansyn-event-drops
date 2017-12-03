@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/osadan/ansyn-event-drops"
+    "url": "https://github.com/AnSyn/ansyn-event-drops"
   },
   "dependencies": {
     "configurable.js": "^0.1.1",
