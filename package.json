@@ -1,6 +1,6 @@
 {
   "name": "ansyn-event-drops",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "description": "A time based / event series interactive visualization using d3.js. Use drag and zoom to navigate in time.",
   "main": "dist-es5/index.js",
   "files": [
